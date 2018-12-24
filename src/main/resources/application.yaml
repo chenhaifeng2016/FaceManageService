@@ -46,5 +46,7 @@ FaceCloud:
 FaceRecognition:
   server: http://10.0.0.19:8300
   appid: GuiYang
-  groupid: single
+
+
+
 

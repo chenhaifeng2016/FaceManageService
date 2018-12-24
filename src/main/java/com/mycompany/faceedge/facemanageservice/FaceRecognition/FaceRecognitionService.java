@@ -17,11 +17,10 @@ public class FaceRecognitionService {
     @Value("${FaceRecognition.appid}")
     private String appid;
 
-    @Value("${FaceRecognition.groupid}")
-    private String groupID;
 
 
-    public boolean deleteFace(String orderID) {
+
+    public boolean deleteFace(String groupID, String orderID) {
         String url = faceRecognitionServer + "/face-api/v3/user/delete?appid={1}";
 
 
