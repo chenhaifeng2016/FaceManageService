@@ -1,9 +1,10 @@
-package com.mycompany.faceedge.facemanageservice.Order;
+package com.mycompany.faceedge.facemanageservice.api;
 
 
 import com.mycompany.faceedge.facemanageservice.APIResponse;
 import com.mycompany.faceedge.facemanageservice.FaceCloud.FaceCloudService;
 import com.mycompany.faceedge.facemanageservice.FaceRecognition.FaceRecognitionService;
+import com.mycompany.faceedge.facemanageservice.Order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,7 @@ public class OrderController {
     //只有单程票才会调用这个接口
     @RequestMapping(value = "/api/v2/updateOrderStatus", method = RequestMethod.GET)
     public APIResponse updateOrderStatus(@RequestParam("orderID") String orderID,
-                                         @RequestParam("status") int status
-                                         ) {
+                                         @RequestParam("status") int status) {
 
 
         APIResponse response = new APIResponse();
@@ -60,9 +60,9 @@ public class OrderController {
             //删除人脸库
             String groupID = "";
             if (status == 1) //已进站
-                groupID = "SINGLE_ENTER";
+                groupID = "single_enter";
             else if (status == 2) // 已出站
-                groupID = "SINGLE_EXIT";
+                groupID = "single_exit";
 
             boolean bRet = faceRecognitionService.deleteFace(groupID, orderID);
             if (bRet) {
@@ -72,7 +72,12 @@ public class OrderController {
             }
 
             // 更新远程订单状态
-            bRet = faceCloudService.updateOrderStatus(orderID, status);
+            if (status == 1) {
+                bRet = faceCloudService.singleEntered(orderID, status);
+            } else if (status == 2) {
+                bRet = faceCloudService.singleExited(orderID, status);
+            }
+
             if (bRet) {
                 System.out.println("云端订单状态更新成功" + orderID);
             } else {

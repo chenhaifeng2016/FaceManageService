@@ -29,6 +29,7 @@ public class FaceRecognitionService {
         postData.put("user_id", orderID);
 
         JSONObject response = restTemplate.postForEntity(url, postData, JSONObject.class, appid).getBody();
+        System.out.println(response);
         int error_code = response.getIntValue("error_code");
 
         if (error_code == 0) {

@@ -1,8 +1,10 @@
 package com.mycompany.faceedge.facemanageservice;
 
 public enum UserType {
-    SPECIAL,
-    EMPLOYEE,
+    LONG_TERM,
     SINGLE_APP,
-    SINGLE_AI
+    SINGLE_AI,
+
+
+
 }

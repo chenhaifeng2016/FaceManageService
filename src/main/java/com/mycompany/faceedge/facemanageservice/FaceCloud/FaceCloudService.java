@@ -14,8 +14,20 @@ public class FaceCloudService {
     @Value("${FaceCloud.server}")
     private String faceCloudServer;
 
-    public boolean updateOrderStatus(String orderID, int orderStatus) {
-        String url = faceCloudServer + "/api/v1/updateOrderStatus?orderID={1}&status={2}";
+    public boolean singleEntered(String orderID, int orderStatus) {
+        String url = faceCloudServer + "/api/v2/entered?orderID={1}&status={2}";
+
+        APIResponse response = restTemplate.getForEntity(url, APIResponse.class, orderID, orderStatus).getBody();
+
+        if (response.getRetCode() == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean singleExited(String orderID, int orderStatus) {
+        String url = faceCloudServer + "/api/v2/exited?orderID={1}&status={2}";
 
         APIResponse response = restTemplate.getForEntity(url, APIResponse.class, orderID, orderStatus).getBody();
 
